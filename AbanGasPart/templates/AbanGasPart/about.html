@@ -18,7 +18,28 @@
     <div class="p-2 ">09153228802</div>
     <br>
     <br><br><br>
-    <div class="p-2 "> <textarea dir="rtl" placeholder="نظرات خود  اینجا وارد کنید" style="background-color: #1a1a1a;color: #f0f0f0;height: 150px;width: 725px;"></textarea></div>
-    <!-- <textarea dir="rtl" placeholder="نظرات خود را اینجا وارد کنید" style="background-color: #1a1a1a;color: #f0f0f0; display:flex ;align-items: center;justify-content: center;height: 150px;width: 1250px;"></textarea> -->
-</div>
-{% endblock body %}
+    <div class="p-2 ">
+        <form onsubmit="fakeSubmit(event)">
+            <textarea dir="rtl" placeholder="نظرات خود را اینجا وارد کنید" style="background-color: #1a1a1a;color: #f0f0f0;height: 150px;width: 725px;"></textarea><br>
+            <button type="submit" class="btn btn-outline-danger">Send</button>
+        </form>
+
+        <p id="thanksMessage" style="display: none; color: rgb(46, 255, 112);"> نظر شما با موفقیت ثبت شد. با تشکر از شما</p>
+
+        <script>
+            function fakeSubmit(event) {
+                event.preventDefault();
+
+
+                event.target.style.display = "none";
+
+
+                document.getElementById("thanksMessage").style.display = "block";
+
+
+                document.getElementById("myText").value = "";
+            }
+        </script>
+    </div>
+
+    {% endblock body %}
