@@ -1,0 +1,18 @@
+{% extends "AbanGasPart/template.html" %} {% load static %} {% block title %} Listings {% endblock title %} {% block body %}
+<div class="item-partision">
+    <div class="item-card">
+        <img class="w-50" src="{{ item.image.url }}" />
+
+        <div class="item-details w-50">
+            <p id="title">{{ item.title }}</p>
+
+            <p id="desc">{{ item.description }}توضیحات</p>
+            <a href="{{ item.catalog.url }}" target="_blank ">
+                <p id="desc ">برای مشاهده کاتالوگ کلیک کنید</p>
+            </a>
+
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

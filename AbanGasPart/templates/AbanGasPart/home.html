@@ -1,0 +1,24 @@
+{% extends "AbanGasPart/template.html" %} {% load static %} {% block title %} Home Page {% endblock title %} {% block body %}
+<div id="pagewrap">
+    <div class="gallery">
+
+        {% for item in items %}
+
+        <a href="{% url 'itempage' item.title %}" class="image">
+            <div class="item-gallery">
+                <img src="{{ item.image.url }}" alt="{{ item.title }}">
+                <p class="title">{{ item.title }}</p>
+                <p class="description">{{ item.description }}</p>
+
+            </div>
+        </a>
+        {% empty %}
+        <div>
+            <li>No Active item</li>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endblock body %}
