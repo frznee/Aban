@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
@@ -9,7 +9,7 @@ from django.contrib import admin
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
 from .models import *
-
+from .forms import CommentForm
 
 
 base_url = 'AbanGasPart'
@@ -43,6 +43,7 @@ def technicians_list(request):
         "technicians": technicians,
         "selected_province_id": selected_province_id,
         "selected_city_id": selected_city_id,
+        'category_list': Item.CATEGOTY_LIST
     })
 
 
@@ -74,8 +75,17 @@ def item_page(request, item_title):
 
 
 def about_page(request):
-    
-    
+    # Fetch latest 10 comments
+    comments = Comment.objects.order_by('-created_at')[:10]
+    form = CommentForm()
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('about')
+
     return render(request, f'{base_url}/about.html', {
-        'category_list': Item.CATEGOTY_LIST
+        'form': form,
+        'comments': comments,
     })

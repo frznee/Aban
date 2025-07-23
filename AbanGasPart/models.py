@@ -46,3 +46,11 @@ class Technician(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Comment(models.Model):
+    name = models.CharField(max_length=100, blank=True, null=True)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Comment #{self.id} - {self.created_at.strftime('%Y-%m-%d')}"
