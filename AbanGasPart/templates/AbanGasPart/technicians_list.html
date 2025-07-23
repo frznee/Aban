@@ -7,6 +7,12 @@
 
 {% block style %}
 <style>
+    .search-container {
+        direction: rtl;
+        text-align: right;
+        max-width: 800px;
+        margin: 0 auto;
+    }
     .form-select {
         background: rgba(255, 255, 255, 0.08);
         border: 1px solid rgba(255, 255, 255, 0.4);
@@ -14,10 +20,12 @@
         border-radius: 40px;
         padding: 10px;
         margin-bottom: 10px;
+        direction: rtl;
+        text-align: right;
     }
     .form-select option {
         color: #000;
-        background: white;
+        background: #fff;
     }
     .tech-card {
         background: rgba(255, 255, 255, 0.08);
@@ -26,22 +34,30 @@
         padding: 10px;
         margin-top: 8px;
         color: #b3b3b3;
+        direction: rtl;
+        text-align: right;
     }
     .tech-card strong {
         color: #fff;
         font-size: 1rem;
     }
+    .tech-card small {
+        display: block;
+        color: #aaa;
+        font-size: 0.85rem;
+        margin-bottom: 5px;
+    }
     .tech-card .mobile, .tech-card .phone {
         font-family: monospace;
-        color: white;
+        color: #fbceb5;
         font-size: 0.9rem;
     }
 </style>
 {% endblock style %}
 
 {% block body %}
-<br><br><br><b></b>
-<div class="container">
+<br><br><br>
+<div class="search-container">
     <h2 class="heading-section mb-4 text-center">جستجوی خدمات پس از فروش</h2>
 
     <form method="get" class="mb-4">
@@ -72,8 +88,8 @@
     {% if technicians %}
         {% for tech in technicians %}
         <div class="tech-card">
-            <strong>{{ tech.name }}</strong><br>
-            <small>{{ tech.address|default:"-" }}</small><br>
+            <strong>{{ tech.name }}</strong>
+            <small>{{ tech.address|default:"-" }}</small>
             {% if tech.mobile %}
                 <div class="mobile">📱 {{ tech.mobile|join:"، " }}</div>
             {% endif %}
