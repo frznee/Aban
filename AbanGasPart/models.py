@@ -19,4 +19,30 @@ class Item(models.Model):
     
     
     
-    
+class Province(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
+class City(models.Model):
+    province = models.ForeignKey(Province, on_delete=models.CASCADE, related_name="cities")
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        unique_together = ('province', 'name')
+
+    def __str__(self):
+        return f"{self.name} ({self.province.name})"
+
+
+class Technician(models.Model):
+    city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="technicians")
+    name = models.CharField(max_length=100)
+    address = models.TextField(blank=True, null=True)
+    mobile = models.JSONField(default=list, blank=True)  # Stores as a list in PostgreSQL/MySQL
+    phone = models.JSONField(default=list, blank=True)
+
+    def __str__(self):
+        return self.name

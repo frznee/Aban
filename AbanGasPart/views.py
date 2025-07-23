@@ -24,6 +24,28 @@ def home(request):
     })
 
 
+def technicians_list(request):
+    provinces = Province.objects.all()
+    selected_province_id = request.GET.get("province")
+    selected_city_id = request.GET.get("city")
+
+    technicians = []
+    cities = []
+
+    if selected_province_id:
+        cities = City.objects.filter(province_id=selected_province_id)
+    if selected_city_id:
+        technicians = City.objects.get(id=selected_city_id).technicians.all()
+
+    return render(request, f'{base_url}/technicians_list.html', {
+        "provinces": provinces,
+        "cities": cities,
+        "technicians": technicians,
+        "selected_province_id": selected_province_id,
+        "selected_city_id": selected_city_id,
+    })
+
+
 def items(request, category):
     if category == "all":
         items = Item.objects.all()

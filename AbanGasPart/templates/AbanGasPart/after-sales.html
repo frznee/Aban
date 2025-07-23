@@ -1,0 +1,557 @@
+{% extends "AbanGasPart/template.html" %} {% block title %} Support {% endblock title %} {% block body %}
+
+
+<br><br><br><b></b>
+<!-- 
+<p style="text-align: right;">سلام خوبی</p> -->
+<div class="d-flex flex-column mb-3" style="text-align: right; color: rgb(0, 0, 0);display: flex">
+    <br>
+    <div class="p-2 ">
+        <style>
+            body {
+                padding: 40px;
+                /* background: #f0f4f8; */
+                color: #f7ebeb;
+            }
+            
+            h2,
+            h5 {
+                text-align: center;
+                color: #f7ebeb;
+                margin-bottom: 20px;
+            }
+            
+            label {
+                display: block;
+                margin-top: 20px;
+                font-weight: bold;
+            }
+            
+            select {
+                width: 100%;
+                max-width: 300px;
+                padding: 10px;
+                font-size: 16px;
+                border-radius: 8px;
+                border: 1px solid #494949;
+                margin-top: 5px;
+            }
+            
+            .technician {
+                background: #ffffff;
+                border-radius: 15px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+                padding: 12px;
+                margin-top: 28px;
+                line-height: 1.7;
+            }
+            
+            .technician strong {
+                text-align: center;
+                font-size: 20px;
+                color: #11669e;
+            }
+            
+            .label {
+                font-weight: bold;
+                color: #000000;
+            }
+            
+            p {
+                margin-top: 20px;
+                background: #ffe9e9;
+                padding: 15px;
+                border: 1px solid #f5c2c2;
+                border-radius: 8px;
+                color: #c0392b;
+            }
+        </style>
+        </head>
+
+        <body>
+
+            <h2>خدمات پس از فروش</h2><br>
+            <h5>جهت مشاهده لیست سرویس کاران برروی استان و شهر مورد نظر خود کلیک کنید</h5>
+
+
+            <label for="province" style="color: #f7ebeb;">استان:</label>
+            <select id="province" onchange="updateCities()">
+        <option value="">انتخاب کنید</option>
+        <option value="ardebil">اردبیل</option>
+        <option value="alborz">البرز</option>
+        <option value="azarbayejansharghi">آذربایجان شرقی </option>
+        <option value="azarbayejangarbi">آذربایجان غربی </option>
+        <option value="tehran">تهران</option>
+        <option value="khorasan">خراسان</option>
+        <option value="khoozestan">خوزستان</option>
+        <option value="semnan">سمنان</option>
+        <option value="fars">فارس</option>
+        <option value="ghazvin">قزوین</option>
+        <option value="kerman">کرمان</option>
+        <option value="kohkeloye">کهکلویه و بویراحمد</option>
+        <option value="golestan">گلستان</option>
+        <option value="gilan">گیلان</option>
+        <option value="lorestan">لرستان</option>
+        <option value="hamedan">همدان</option>
+        <option value="booshehr">بوشهر</option>
+    </select>
+
+            <label for="city" style="color: #f7ebeb;">شهر:</label>
+            <select id="city" onchange="showTechnicians()">
+        <option value="">انتخاب کنید</option>
+    </select>
+
+            <div id="technicianList"></div>
+
+            <script>
+                const data = {
+                    ardebil: {
+                        "اردبیل": [{
+                            name: "واحد ساجد",
+                            address: "اردبیل-میدان وحدت ، ابتدای خیابان وحدت ، نرسیده به بانک صادرات ، خدمات فنی الکتروسانترال",
+                            mobile: ["9144510811", "9148103006"],
+                            phone: ["4533440042"]
+                        }, {
+                            name: "مهدی محمدی",
+                            address: "بلوار امام، پلاک ۴۰",
+                            mobile: ["09120000002"],
+                            phone: []
+                        }],
+                        "پارس اباد مغان": [{
+                            name: "رحیم آباریان ",
+                            address: "",
+                            mobile: ["9141512431"],
+                            phone: [""]
+
+                        }]
+                    },
+                    alborz: {
+                        "کرج-مارلیک": [{
+                            name: "حبیب الله شجری",
+                            address: '',
+                            mobile: ["9141512431", "9362570116"],
+                            phone: ['']
+                        }],
+                        "کرج و حومه": [{
+                            name: "نادر نساجی",
+                            address: "",
+                            mobile: ["9128664177"],
+                            phone: [""]
+
+                        }]
+
+                    },
+                    azarbayejansharghi: {
+                        "اهر": [{
+                            name: " قلعه میرزا اصلانی",
+                            address: 'اهر . خیابان شیخ شهاب . پایین تر از سینما قدس . روبروی فروشگاه 151 داد.  خدمات فنی اصلانی',
+                            mobile: ["9143263039", "9023263039"],
+                            phone: ['4144221998']
+                        }],
+                        "بناب": [{
+                            name: "علیرضا محمدی",
+                            address: 'بناب-خیابان انقلاب-جنب مسجدانقلاب',
+                            mobile: ["9143203890"],
+                            phone: ['']
+                        }],
+                        "تبریز": [{
+                            name: "علیرضا بابایی",
+                            address: '',
+                            mobile: ["9143134786"],
+                            phone: ['']
+                        }]
+                    },
+                    azarbayejangarbi: {
+                        "چهاربرج": [{
+                            name: "رحیم فاتحی",
+                            address: 'چهار برج-خیابان شهید رجایی',
+                            mobile: [" 9148727904"],
+                            phone: ['044-45324242']
+                        }],
+                        "سلماس": [{
+                            name: "ابوالفضل فاخری",
+                            address: 'خیابان مدرس غربی-تقاطع سلطان زاده',
+                            mobile: ["9141880254"],
+                            phone: ['044-35231185']
+                        }],
+                        "مهاباد": [{
+                            name: "محمد رشید رحیم نژاد",
+                            address: 'خیابان تره بار قدیم-پشت بازار چه نوین',
+                            mobile: ["9144420901"],
+                            phone: ['044-42442762']
+                        }],
+                        "میاندوآب": [{
+                            name: "عدل احمدیان",
+                            address: 'میاندوآب',
+                            mobile: ["9144823397"],
+                            phone: ['']
+                        }],
+                        "پیرانشهر": [{
+                            name: "عبدالقادر رسولی",
+                            address: 'خ شین اباد خدمات فنی رسولی ',
+                            mobile: ["9143448339"],
+                            phone: ['4444239632']
+                        }],
+                        "ارومیه": [{
+                            name: "علیرضا محمدی",
+                            address: 'بناب-خیابان انقلاب-جنب مسجدانقلاب',
+                            mobile: ["9143203890"],
+                            phone: ['']
+                        }, {
+                            name: "شاهرخ اکبرزاده",
+                            address: '',
+                            mobile: ["9143416063"],
+                            phone: ['']
+
+                        }],
+                        "خوی": [{
+                            name: "رضا قمری",
+                            address: '',
+                            mobile: ["9141606035"],
+                            phone: ['']
+                        }],
+                        "نقده": [{
+                            name: "بهزاد محبی",
+                            address: '',
+                            mobile: ["9144491345"],
+                            phone: ['']
+                        }]
+
+                    },
+                    tehran: {
+                        "تهران": [{
+                            name: "علی اکبر توفیقیان",
+                            address: 'خیابان جمهوری-بین دانشگاه و ابوریحان',
+                            mobile: ["9121194323", "9371194323"],
+                            phone: ['']
+                        }],
+                        "رباط کریم": [{
+                            name: "حمید علی محمدی",
+                            address: 'رباط کریم داوودیه خ فرهنگیان پ۴۸ ',
+                            mobile: ["9127037262", "9195051304"],
+                            phone: ['2156730170']
+                        }],
+                        "ورامین": [{
+                            name: "مسعود پورچی",
+                            address: '',
+                            mobile: ["9122913797"],
+                            phone: ['']
+                        }],
+                        "شهر ری": [{
+                            name: "یوسف قلیزاده",
+                            address: '',
+                            mobile: ["9123795195"],
+                            phone: ['']
+                        }]
+
+                    },
+                    khorasan: {
+                        "تربت جام": [{
+                            name: "بهاءالدین منصوری",
+                            address: 'تربت جام،خیابان میرقوام الدین۹بعدازدرمانگاه وحدت داخل کوچه سمت راست درب دوم خدمات فنی منصوری',
+                            mobile: ["9153284836"],
+                            phone: ['5152544048']
+                        }],
+                        "اسفراین": [{
+                            name: "محمد تقی رحیمی",
+                            address: '',
+                            mobile: ["9153725077"],
+                            phone: ['']
+                        }],
+                        "فاروج-شیروان": [{
+                            name: "پاکدامن",
+                            address: '',
+                            mobile: ["9152043771"],
+                            phone: ['5846235572']
+                        }],
+                        "تایباد": [{
+                            name: "یارمحمدی",
+                            address: '',
+                            mobile: ["9153291852"],
+                            phone: ['']
+                        }],
+                        "قوچان": [{
+                            name: "سعید آفاقی",
+                            address: '',
+                            mobile: ["9153825933"],
+                            phone: ['']
+                        }],
+                        "نیشابور": [{
+                            name: "رسول شورگشتی",
+                            address: '',
+                            mobile: ["9151505746"],
+                            phone: ['']
+                        }],
+                        "مشهد": [{
+                            name: "جلیل رضوانی",
+                            address: '',
+                            mobile: ["9153023457"],
+                            phone: ['']
+                        }]
+
+                    },
+                    khoozestan: {
+                        "رامهرمز": [{
+                            name: "فرحناز",
+                            address: '',
+                            mobile: ["9163919951"],
+                            phone: ['']
+                        }]
+
+                    },
+                    semnan: {
+                        "گرمسار": [{
+                            name: "میثم باصری",
+                            address: 'میدان امام -خیابان طالقانی',
+                            mobile: ["9123320046"],
+                            phone: ['2334236197', '2334225454']
+                        }],
+                        "سمنان": [{
+                            name: "خلیل شیدایی",
+                            address: '',
+                            mobile: ["9123311034"],
+                            phone: ['2333436455']
+                        }, {
+                            name: "رمضان همتی",
+                            address: '',
+                            mobile: ["9126310646"],
+                            phone: ['']
+
+                        }],
+                        "شاهرود": [{
+                            name: "کمال میراب",
+                            address: '',
+                            mobile: ["9123731523"],
+                            phone: ['2332221965']
+                        }]
+                    },
+                    fars: {
+                        "شیراز": [{
+                            name: "محمدرضا عدالت زاده  ",
+                            address: '',
+                            mobile: ["9174071047"],
+                            phone: ['7138357845', '7138348910']
+                        }, {
+                            name: "عزیزالله نورانپوش  ",
+                            address: '',
+                            mobile: ["9173068500"],
+                            phone: []
+
+                        }],
+                        "فسا": [{
+                            name: "عبدالرحمن جهانگیری",
+                            address: 'فسا-خیابان امام خمینی',
+                            mobile: ["9177305264", "9179157288"],
+                            phone: []
+                        }],
+                        "آباده": [{
+                            name: "کاظم صفایی",
+                            address: '',
+                            mobile: ["9171532124"],
+                            phone: []
+                        }],
+                        "ارسنجان": [{
+                            name: "حمیدرضا حسن شاهی",
+                            address: '',
+                            mobile: ["9177286726"],
+                            phone: []
+                        }],
+                        "جهرم": [{
+                            name: "محمد مصلی نژاد",
+                            address: '',
+                            mobile: ["9173918239"],
+                            phone: []
+                        }],
+                        "حاجی آباد": [{
+                            name: "قدرت عابدپور",
+                            address: '',
+                            mobile: ["9179307492"],
+                            phone: []
+                        }],
+                        "مرودشت": [{
+                            name: "عبدالرضا برزگر",
+                            address: '',
+                            mobile: ["9174458095"],
+                            phone: []
+                        }],
+                        "نورآبادممسنی": [{
+                            name: "حیدری",
+                            address: '',
+                            mobile: ["9179214154"],
+                            phone: []
+                        }]
+
+                    },
+                    ghazvin: {
+                        "قزوین": [{
+                            name: "علی اصفر دوستی",
+                            address: '',
+                            mobile: ["9191941120"],
+                            phone: []
+                        }]
+
+                    },
+                    kerman: {
+                        "کرمان": [{
+                            name: "خاکنما",
+                            address: '',
+                            mobile: ["9364859039"],
+                            phone: []
+                        }]
+
+
+                    },
+                    kohkeloye: {
+                        "یاسوج": [{
+                            name: "مهدی مندنی پور",
+                            address: '',
+                            mobile: ["9176619240", "9371159360"],
+                            phone: []
+                        }]
+
+                    },
+                    golestan: {
+                        "کلاله": [{
+                            name: "عزیزاله شرفی",
+                            address: '',
+                            mobile: ["9112741973"],
+                            phone: []
+                        }],
+                        "آزاد شهر": [{
+                            name: "علی اکبر سالاری",
+                            address: '',
+                            mobile: ["9119782173"],
+                            phone: []
+                        }],
+                        "گرگان": [{
+                            name: "مصطفی آقا محمد",
+                            address: '',
+                            mobile: ["9111708110"],
+                            phone: []
+                        }]
+
+                    },
+                    golestan: {
+                        "کلاله": [{
+                            name: "عزیزاله شرفی",
+                            address: '',
+                            mobile: ["9112741973"],
+                            phone: []
+                        }],
+                        "آزاد شهر": [{
+                            name: "علی اکبر سالاری",
+                            address: '',
+                            mobile: ["9119782173"],
+                            phone: []
+                        }],
+                        "گرگان": [{
+                            name: "مصطفی آقا محمد",
+                            address: '',
+                            mobile: ["9111708110"],
+                            phone: []
+                        }]
+
+                    },
+                    gilan: {
+                        "بندر انزلی": [{
+                            name: "حمید",
+                            address: '',
+                            mobile: ["9355526679"],
+                            phone: []
+                        }],
+                        "لاهیجان": [{
+                            name: "علیرضا نجات مهدی پور",
+                            address: '',
+                            mobile: ["9118456700"],
+                            phone: []
+                        }]
+
+                    },
+                    lorestan: {
+                        "خرم آباد": [{
+                            name: "امین جافریان",
+                            address: '',
+                            mobile: ["9163975167"],
+                            phone: ["6633302164"]
+                        }],
+                    },
+                    hamedan: {
+                        "همدان": [{
+                            name: "حسین داوریان",
+                            address: '',
+                            mobile: ["9188193739"],
+                            phone: []
+                        }],
+                    },
+                    booshehr: {
+                        "برازجان": [{
+                            name: "فتحی",
+                            address: '',
+                            mobile: ["9172704395", "9179745905"],
+                            phone: []
+                        }],
+                    }
+
+
+
+                };
+
+                function updateCities() {
+                    const province = document.getElementById("province").value;
+                    const citySelect = document.getElementById("city");
+                    citySelect.innerHTML = '<option value="">انتخاب کنید</option>';
+
+                    if (province && data[province]) {
+                        const cities = Object.keys(data[province]);
+                        cities.forEach(city => {
+                            const option = document.createElement("option");
+                            option.value = city;
+                            option.textContent = city;
+                            citySelect.appendChild(option);
+                        });
+                    }
+
+                    document.getElementById("technicianList").innerHTML = "";
+                }
+
+                function showTechnicians() {
+                    const province = document.getElementById("province").value;
+                    const city = document.getElementById("city").value;
+                    const listDiv = document.getElementById("technicianList");
+                    listDiv.innerHTML = "";
+
+                    if (province && city && data[province][city]) {
+                        const technicians = data[province][city];
+
+                        if (technicians.length === 0) {
+                            listDiv.innerHTML = "<p>در این شهر سرویس‌کاری وجود ندارد.</p>";
+                        } else {
+                            technicians.forEach(t => {
+                                const div = document.createElement("div");
+                                div.className = "technician";
+
+                                let html = `<strong>${t.name}</strong><br>`;
+                                html += `<span class="label">آدرس:</span> ${t.address}<br>`;
+
+                                if (t.mobile && t.mobile.length > 0) {
+                                    html += `<span class="label">موبایل:</span> ${t.mobile.join(" | ")}<br>`;
+                                }
+
+                                if (t.phone && t.phone.length > 0) {
+                                    html += `<span class="label">تلفن ثابت:</span> ${t.phone.join(" | ")}<br>`;
+                                }
+
+                                div.innerHTML = html;
+                                listDiv.appendChild(div);
+                            });
+                        }
+                    } else {
+                        listDiv.innerHTML = "<p>در این شهر سرویس‌کاری وجود ندارد.</p>";
+                    }
+                }
+            </script>
+    </div>
+
+</div>
+
+{% endblock body %}
