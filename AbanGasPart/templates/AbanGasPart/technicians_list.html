@@ -1,0 +1,89 @@
+{% extends "AbanGasPart/template.html" %}
+{% load static %}
+
+{% block title %}
+خدمات پس از فروش
+{% endblock title %}
+
+{% block style %}
+<style>
+    .form-select {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        color: #fff;
+        border-radius: 40px;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    .form-select option {
+        color: #000;
+        background: white;
+    }
+    .tech-card {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 10px;
+        margin-top: 8px;
+        color: #b3b3b3;
+    }
+    .tech-card strong {
+        color: #fff;
+        font-size: 1rem;
+    }
+    .tech-card .mobile, .tech-card .phone {
+        font-family: monospace;
+        color: white;
+        font-size: 0.9rem;
+    }
+</style>
+{% endblock style %}
+
+{% block body %}
+<br><br><br><b></b>
+<div class="container">
+    <h2 class="heading-section mb-4 text-center">جستجوی خدمات پس از فروش</h2>
+
+    <form method="get" class="mb-4">
+        <!-- Province -->
+        <select name="province" class="form-select" onchange="this.form.submit()">
+            <option value="">انتخاب استان</option>
+            {% for province in provinces %}
+            <option value="{{ province.id }}" {% if province.id|stringformat:'s' == selected_province_id %}selected{% endif %}>
+                {{ province.name }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <!-- City -->
+        {% if cities %}
+        <select name="city" class="form-select" onchange="this.form.submit()">
+            <option value="">انتخاب شهر</option>
+            {% for city in cities %}
+            <option value="{{ city.id }}" {% if city.id|stringformat:'s' == selected_city_id %}selected{% endif %}>
+                {{ city.name }}
+            </option>
+            {% endfor %}
+        </select>
+        {% endif %}
+    </form>
+
+    <!-- Technicians -->
+    {% if technicians %}
+        {% for tech in technicians %}
+        <div class="tech-card">
+            <strong>{{ tech.name }}</strong><br>
+            <small>{{ tech.address|default:"-" }}</small><br>
+            {% if tech.mobile %}
+                <div class="mobile">📱 {{ tech.mobile|join:"، " }}</div>
+            {% endif %}
+            {% if tech.phone %}
+                <div class="phone">☎️ {{ tech.phone|join:"، " }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    {% elif selected_city_id %}
+        <p class="text-center" style="color:#fbceb5;">هیچ تکنسینی ثبت نشده است.</p>
+    {% endif %}
+</div>
+{% endblock body %}
