@@ -43,6 +43,7 @@ def technicians_list(request):
         "technicians": technicians,
         "selected_province_id": selected_province_id,
         "selected_city_id": selected_city_id,
+        'category_list': Item.CATEGOTY_LIST
     })
 
 
