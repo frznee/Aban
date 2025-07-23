@@ -1,19 +1,84 @@
-{% extends "AbanGasPart/template.html" %} {% block title %} About {% endblock title %} {% block body %}
+{% extends "AbanGasPart/template.html" %}
 
-<br><br><br><b></b>
-<!-- 
-<p style="text-align: right;">سلام خوبی</p> -->
-<div class="d-flex flex-column mb-3" style="text-align: right; color: rgb(255, 255, 255);display: flex">
-    <br>
-    <div class="p-2 ">آدرس دفتر مرکزی: مشهد - بلوار خیام شمالی نبش کوچه عقیق پ 1 شماره تماس دفتر: 09155113448</div>
-    <br>
-    <div class="p-2 ">آدرس کارخانه: خراسان‌ رضوی - چناران - شهرک صنعتی شماره تماس دفتر: 05826239100-1 </div>
-    <br>
-    <div class="p-2 ">09032876640:شماره تماس</div>
-    <div class="p-2 ">09153228802</div>
-    <br>
-    <br><br><br>
-    <div class="p-2 "> <textarea dir="rtl" placeholder="نظرات خود  اینجا وارد کنید" style="background-color: #1a1a1a;color: #f0f0f0;height: 150px;width: 725px;"></textarea></div>
-    <!-- <textarea dir="rtl" placeholder="نظرات خود را اینجا وارد کنید" style="background-color: #1a1a1a;color: #f0f0f0; display:flex ;align-items: center;justify-content: center;height: 150px;width: 1250px;"></textarea> -->
+{% block title %}
+درباره ما
+{% endblock title %}
+
+{% block style %}
+<style>
+    .about-container {
+        color: #fff;
+        text-align: right;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 30px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+    .about-item {
+        margin-bottom: 15px;
+        padding: 10px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .about-item:last-child {
+        border-bottom: none;
+    }
+    .about-textarea {
+        background-color: #1a1a1a;
+        color: #f0f0f0;
+        height: 150px;
+        width: 100%;
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 8px;
+        padding: 10px;
+        margin-top: 20px;
+        resize: vertical;
+        font-family: inherit;
+    }
+</style>
+{% endblock style %}
+
+{% block body %}
+<div class="about-container">
+    <h2 class="heading-section mb-4 text-center">درباره ما</h2>
+
+    <div class="about-item">
+        <strong>آدرس دفتر مرکزی:</strong> مشهد - بلوار خیام شمالی - نبش کوچه عقیق - پ 1  
+        <br><strong>شماره تماس دفتر:</strong> 09155113448
+    </div>
+
+    <div class="about-item">
+        <strong>آدرس کارخانه:</strong> خراسان رضوی - چناران - شهرک صنعتی  
+        <br><strong>شماره تماس کارخانه:</strong> 05826239100-1
+    </div>
+
+    <div class="about-item">
+        <strong>شماره تماس:</strong> 09032876640 | 09153228802
+    </div>
+
+    <!-- Comment Form -->
+    <div class="comment-box">
+        <h4>ثبت نظر شما</h4>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn-submit">ارسال نظر</button>
+        </form>
+    </div>
+
+    <!-- Show Comments -->
+    <div class="comments-list mt-3">
+        <h4>آخرین نظرات</h4>
+        {% for c in comments %}
+        <div class="comment">
+            <strong>{{ c.name|default:"کاربر ناشناس" }}</strong><br>
+            {{ c.message|linebreaks }}<br>
+            <small>{{ c.created_at|date:"Y/m/d H:i" }}</small>
+        </div>
+        {% empty %}
+        <p>هیچ نظری ثبت نشده است.</p>
+        {% endfor %}
+    </div>
 </div>
 {% endblock body %}
