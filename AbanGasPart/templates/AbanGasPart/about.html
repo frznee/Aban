@@ -9,6 +9,7 @@
     .about-container {
         color: #fff;
         text-align: right;
+        direction: rtl;
         max-width: 800px;
         margin: 0 auto;
         padding: 30px;
@@ -20,21 +21,44 @@
         margin-bottom: 15px;
         padding: 10px;
         border-bottom: 1px solid rgba(255,255,255,0.1);
+        line-height: 1.8;
     }
     .about-item:last-child {
         border-bottom: none;
     }
-    .about-textarea {
-        background-color: #1a1a1a;
-        color: #f0f0f0;
-        height: 150px;
-        width: 100%;
-        border: 1px solid rgba(255,255,255,0.2);
-        border-radius: 8px;
+    .comment-box {
+        margin-top: 25px;
+        text-align: right;
+    }
+    .comment {
+        margin-top: 10px;
         padding: 10px;
-        margin-top: 20px;
-        resize: vertical;
-        font-family: inherit;
+        background: rgba(255,255,255,0.05);
+        border-radius: 5px;
+        text-align: right;
+        direction: rtl;
+    }
+    .comment small {
+        color: #aaa;
+        font-size: 0.8rem;
+    }
+    .form-control, .comment-box textarea, .comment-box input {
+        direction: rtl;
+        text-align: right;
+    }
+    .btn-submit {
+        background: white;
+        border: none;
+        color: #000;
+        padding: 8px 15px;
+        border-radius: 30px;
+        margin-top: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .btn-submit:hover {
+        background: rgba(255,255,255,0.05);
+        color: #fff;
     }
 </style>
 {% endblock style %}
